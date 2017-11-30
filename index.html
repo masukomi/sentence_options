@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/masukomi/sentence_options">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>README - github.com/masukomi/sentence_options</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li class="current"><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class="parent " data-id="github.com/masukomi/sentence_options/SentenceOptions" data-name="sentenceoptions">
+      <a href="SentenceOptions.html">SentenceOptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/masukomi/sentence_options/SentenceOptions/Command" data-name="sentenceoptions::command">
+      <a href="SentenceOptions/Command.html">Command</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/masukomi/sentence_options/SentenceOptions/Parser" data-name="sentenceoptions::parser">
+      <a href="SentenceOptions/Parser.html">Parser</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<p><a href="https://travis-ci.org/masukomi/sentence_options" target="_blank"><img src="https://travis-ci.org/masukomi/sentence_options.svg?branch=master" alt="Build Status"/></a></p>
+
+<h1>sentence_options</h1>
+
+<p>A command line options parser for sentence-like human interfaces to your apps. </p>
+
+<p>If you wanted, for example to tell your app to tag the last item with "urgent" 
+a typical option parser would require inputs like this:</p>
+
+<pre><code>my_app </code></pre>
+
+<p>With sentence_options you can allow your users to interact with your app like
+this: </p>
+
+<pre><code>my_app tag last item <span class="k">with</span> urgent
+<span class="c"># or</span>
+my_app tag last item urgent</code></pre>
+
+<p>It makes the base assumption that each command to your app will start with a
+unique keyword. In the example above that keyword is "tag". It finds the
+matching <code>Command</code> and passes it the remaining arguments to a <code>Proc</code> to be
+handled. </p>
+
+<h2>Installation</h2>
+
+<p>Add this to your application's <code>shard.yml</code>:</p>
+
+<pre><code class='language-yaml'>dependencies:
+  sentence_options:
+    github: masukomi/sentence_options</code></pre>
+
+<h2>Usage</h2>
+
+<pre><code class='language-crystal'><span class="k">require</span> <span class="s">&quot;sentence_options/sentence_options&quot;</span>
+
+<span class="c"># initialize a new Parser</span>
+parser <span class="o">=</span> <span class="t">SentenceOptions</span><span class="t">::</span><span class="t">Parser</span>.<span class="k">new</span>(<span class="s">&quot;Usage: do stuff with things&quot;</span>)
+<span class="c"># each command needs a Proc to handle the arguments</span>
+<span class="c"># this is a slightly complex example of how to handle tagging an item.</span>
+tag_proc <span class="o">=</span> <span class="t">Proc</span>(<span class="t">Array</span>(<span class="t">String</span>), <span class="t">Bool</span>).<span class="k">new</span>{ <span class="o">|</span>args<span class="o">|</span> 
+  args <span class="o">=</span> args.reject{<span class="o">|</span>x<span class="o">|</span> x <span class="o">==</span> <span class="s">&quot;with&quot;</span>} <span class="c"># don&#39;t need that</span>
+  identifier <span class="o">=</span> args[<span class="n">0</span>]
+  thing <span class="o">=</span> args[<span class="n">1</span>]
+  tags <span class="o">=</span> args[<span class="n">2</span>..<span class="n">-1</span>] <span class="c"># everything else is a tag</span>
+  <span class="k">begin</span>
+    <span class="k">if</span> thing <span class="o">==</span> <span class="s">&quot;item&quot;</span>
+      <span class="t">Item</span>.find(identifier).tag(tags)
+    <span class="k">else</span>
+      <span class="t">NotItem</span>.find(identifier).tag(tags)
+    <span class="k">end</span>
+    <span class="n">true</span>
+  <span class="k">rescue</span> 
+    <span class="n">false</span> <span class="c"># or maybe raise a custom exception</span>
+  <span class="k">end</span>
+   })
+<span class="c"># new command with the proc</span>
+tag_command <span class="o">=</span> <span class="t">SentenceOptions</span><span class="t">::</span><span class="t">Command</span>.<span class="k">new</span>(<span class="s">&quot;tag&quot;</span>,
+                                      <span class="s">&quot;tag &lt;identifier&gt; &lt;thing&gt; &#91;with&#93; &lt;tag&gt;&quot;</span>,
+                                      tag_proc)
+<span class="c"># add the Command to the Parser</span>
+parser.add_command(tag_command)
+
+<span class="c"># parse the arguments passed in</span>
+successful <span class="o">=</span> parser.parse(<span class="t">ARGV</span>) <span class="c"># will also return false if given an empty array</span>
+<span class="t">STDERR</span>.puts parser.banner <span class="k">unless</span> successful</code></pre>
+
+<h2>Development</h2>
+
+<p>Before developing any feature please create an issue where you describe your idea.</p>
+
+<p>Before working on a bug, please make sure there isn't already a GitHub Issue for it. If there is, make sure no-one's already working on it. If there isn't please create one. </p>
+
+<p>If you have a useful sounding idea I'll probably want to merge it. If you've
+already coded up improvements for yourself, go ahead and file an Issue
+describing it and then make a PR. </p>
+
+<p>Note: while I really want to add your contributions, no PR will be merged
+without passing unit tests.</p>
+
+<p>Please ping me at @masukomi on Twitter so that I see your Issue promptly.</p>
+
+<h2>Contributing</h2>
+
+<ol><li>Fork it ( https://github.com/masukomi/sentence_options/fork )</li><li>Create your feature branch (git checkout -b my-new-feature)</li><li>Commit your changes (git commit -am 'Add some feature')</li></ol>
+
+<pre><code><span class="o">*</span> <span class="t">Please</span> <span class="k">include</span> [unit tests]((https<span class="n">:/</span><span class="s">/crystal-lang.org/</span>api<span class="s">/Spec.html&#41;&#41; 
+  and &#91;documentation&#93;&#40;https:/</span><span class="s">/crystal-lang.org/</span>docs<span class="s">/conventions/</span>documenting_code.html).</code></pre>
+
+<ol><li>Push to the branch (git push origin my-new-feature)</li><li>Create a new Pull Request</li><li>Poke <a href="https://twitter.com/masukomi" target="_blank">@masukomi</a> on Twitter to make sure it gets seen promptly.</li></ol>
+
+<h2>Contributors</h2>
+
+<ul><li><a href="https://github.com/masukomi" target="_blank">masukomi</a> masukomi - creator, maintainer</li></ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="github.com/masukomi/sentence_options">
+  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../js/doc.js"></script>
+  <title>SentenceOptions::Command - github.com/masukomi/sentence_options</title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="../index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class="parent open current" data-id="github.com/masukomi/sentence_options/SentenceOptions" data-name="sentenceoptions">
+      <a href="../SentenceOptions.html">SentenceOptions</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="github.com/masukomi/sentence_options/SentenceOptions/Command" data-name="sentenceoptions::command">
+      <a href="../SentenceOptions/Command.html">Command</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/masukomi/sentence_options/SentenceOptions/Parser" data-name="sentenceoptions::parser">
+      <a href="../SentenceOptions/Parser.html">Parser</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> SentenceOptions::Command
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../SentenceOptions/Command.html">SentenceOptions::Command</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L2" target="_blank">sentence_options/command.cr</a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28name%3AString%2Cdescription%3AString%2Chandler%3AProc%28Array%28String%29%2CBool%29%29-class-method" class="signature"><strong>.new</strong>(name : String, description : String, handler : Proc(Array(String), Bool))</a>
+        
+          <div class="summary"><p>It is assumed that every set of args begins with a Command keyword/name.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#description%3AString-instance-method" class="signature"><strong>#description</strong> : String</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#handle%28args%3AArray%28String%29%29%3ABool-instance-method" class="signature"><strong>#handle</strong>(args : Array(String)) : Bool</a>
+        
+          <div class="summary"><p>Calls the stored proc with the specified args.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#handles_command%3F%28a_command%3AString%29%3ABool-instance-method" class="signature"><strong>#handles_command?</strong>(a_command : String) : Bool</a>
+        
+          <div class="summary"><p>Returns a Bool indicating if it can handle the specified command.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#name%3AString-instance-method" class="signature"><strong>#name</strong> : String</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new&#40;name:String,description:String,handler:Proc&#40;Array&#40;String&#41;,Bool&#41;&#41;-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(name : String, description : String, handler : Proc(Array(String), Bool))
+
+        <a class="method-permalink" href="#new%28name%3AString%2Cdescription%3AString%2Chandler%3AProc%28Array%28String%29%2CBool%29%29-class-method">#</a>
+      </div>
+      
+        <div class="doc"><p>It is assumed that every set of args begins with a Command keyword/name.
+The name of this command will be used to determine if it should be used to
+handle the current set of arguments.
+The description will be used when generating usage instructions.
+the handler is a proc that will be passed all the arguments after
+the one that matched the name.</p>
+
+<p>For example. The following:</p>
+
+<pre><code>my_app tag last item urgent</code></pre>
+
+<p>will be handled by the Command with the name "tag"
+and its handler will be passed "last item urgent"
+It is assumed that the handler would have the logic needed
+to know that "last" is followed by a modifier to tell what
+kind of thing to choose the last one of, and then tag with "urgent"</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="description:String-instance-method">
+      <div class="signature">
+        
+        def <strong>description</strong> : String
+
+        <a class="method-permalink" href="#description%3AString-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="handle&#40;args:Array&#40;String&#41;&#41;:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>handle</strong>(args : Array(String)) : Bool
+
+        <a class="method-permalink" href="#handle%28args%3AArray%28String%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Calls the stored proc with the specified args.
+Returns a Bool from the proc indicating if it was successful or not.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="handles_command?&#40;a_command:String&#41;:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>handles_command?</strong>(a_command : String) : Bool
+
+        <a class="method-permalink" href="#handles_command%3F%28a_command%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Returns a Bool indicating if it can handle the specified command.</p></div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="name:String-instance-method">
+      <div class="signature">
+        
+        def <strong>name</strong> : String
+
+        <a class="method-permalink" href="#name%3AString-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/masukomi/sentence_options/blob/82551e4c4a8db6c9ac1d0f227c9b9ce34fedfcae/src/sentence_options/command.cr#L3" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
