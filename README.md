@@ -39,7 +39,7 @@ dependencies:
 ## Usage
 
 ```crystal
-require "sentence_options"
+require "sentence_options/sentence_options"
 
 # initialize a new Parser
 parser = SentenceOptions::Parser.new("Usage: do stuff with things")
